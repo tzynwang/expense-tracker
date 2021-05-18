@@ -1,13 +1,14 @@
 const Categories = require('../categories')
 const db = require('../../config/mongoose')
 
-const categoryArray = ['家居物業', '交通出行', '休閒娛樂', '餐飲食品', '其他']
+const categoryArray = require('../../sampleCategories.json')
 
 db.once('open', () => {
   console.log('mongodb connect')
-  categoryArray.forEach(category => {
+  categoryArray.results.forEach(eachCategory => {
     Categories.create({
-      name: category
+      name: eachCategory.name,
+      icon: eachCategory.icon
     })
   })
   console.log('Generate categories by seeder DONE')
