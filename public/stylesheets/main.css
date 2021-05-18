@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'Noto Serif TC';
+  src: url('../fonts/NotoSerifTC-Light.otf');
+}
+
+body {
+  font-family: 'Noto Serif TC', serif;
+}

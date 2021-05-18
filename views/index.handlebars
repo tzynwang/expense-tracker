@@ -1,0 +1,33 @@
+<main class="container">
+  <div class="my-3">
+    <label for="category">帳目類型：</label>
+    <select name="category" id="category" class="form-select">
+      <option selected disabled>--請選擇--</option>
+      {{#forEach categories}}
+      <option value="{{name}}">{{name}}</option>
+      {{/forEach}}
+    </select>
+  </div>
+  <div class="mb-3">
+    <ul class="list-group">
+      {{#each records}}
+      <li class="list-group-item d-flex justify-content-between">
+        <span>
+          {{this.date}}
+          {{#forEach ../categories}}
+          {{#is name ../this.category}}
+          {{{icon}}}
+          {{/is}}
+          {{/forEach}}
+          {{this.name}}
+        </span>
+        <span>
+          {{this.amount}}元
+        </span>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+
+  <p class="h1">統計金額：{{totalAmount}}元</p>
+</main>
