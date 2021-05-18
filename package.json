@@ -1,0 +1,28 @@
+{
+  "name": "expense-tracker",
+  "version": "1.0.0",
+  "description": "Alpha Camp 2-3作業：老爸的私房錢",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "seed": "node models/seeds/categorySeeder.js && node models/seeds/recordSeeder.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tzynwang/expense-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tzynwang/expense-tracker/issues"
+  },
+  "homepage": "https://github.com/tzynwang/expense-tracker#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express-handlebars": "^5.3.2",
+    "method-override": "^3.0.0"
+  }
+}
