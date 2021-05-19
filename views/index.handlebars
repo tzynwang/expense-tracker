@@ -1,6 +1,7 @@
-<main class="container">
+<main class="container my-5">
+  <p class="h1">統計金額：{{totalAmount}}元</p>
   <div class="my-3">
-    <label for="category">帳目類型：</label>
+    <label for="category" class="h3">帳目類型：</label>
     <select name="category" id="category" class="form-select">
       <option selected disabled>--請選擇--</option>
       {{#forEach categories}}
@@ -9,9 +10,10 @@
     </select>
   </div>
   <div class="mb-3">
+    <p class="h3">帳目一覽：</p>
     <ul class="list-group">
       {{#each records}}
-      <li class="list-group-item d-flex justify-content-between">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
         <span>
           {{this.date}}
           {{#forEach ../categories}}
@@ -23,11 +25,42 @@
         </span>
         <span>
           {{this.amount}}元
+          <a href="/expense/{{this._id}}" class="btn btn-primary">修改</a>
+          <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deleteModal{{this._id}}">刪除</button>
         </span>
       </li>
       {{/each}}
     </ul>
   </div>
+  <!-- Add button -->
+  <a href="/expense/add" class="add-button">
+    <i class="bi bi-plus"></i>
+  </a>
 
-  <p class="h1">統計金額：{{totalAmount}}元</p>
+  <!-- Modal -->
+  <div class="modals">
+    {{#each records}}
+    <div class="modal fade" id="deleteModal{{this._id}}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <p class="h5 modal-title">確認刪除</p>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            確認要刪除帳目「{{this.name}}」嗎？
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+            <form action="/expense/{{this._id}}?_method=DELETE" method="POST">
+              <button type="submit" class="btn btn-primary">確認刪除</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
 </main>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/javascripts/index.js"></script>
