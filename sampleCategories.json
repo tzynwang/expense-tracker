@@ -1,24 +1,22 @@
-{
-  "results": [
-    {
-      "name": "家居物業",
-      "icon": "<i class=\"bi bi-house-fill\"></i>"
-    },
-    {
-      "name": "交通出行",
-      "icon": "<i class=\"bi bi-truck\"></i>"
-    },
-    {
-      "name": "休閒娛樂",
-      "icon": "<i class=\"bi bi-emoji-laughing-fill\"></i>"
-    },
-    {
-      "name": "餐飲食品",
-      "icon": "<i class=\"bi bi-cup-straw\"></i>"
-    },
-    {
-      "name": "其他",
-      "icon": "<i class=\"bi bi-flag-fill\"></i>"
-    }
-  ]
-}
+[
+  {
+    "name": "家居物業",
+    "icon": "<i class=\"bi bi-house-fill\"></i>"
+  },
+  {
+    "name": "交通出行",
+    "icon": "<i class=\"bi bi-truck\"></i>"
+  },
+  {
+    "name": "休閒娛樂",
+    "icon": "<i class=\"bi bi-emoji-laughing-fill\"></i>"
+  },
+  {
+    "name": "餐飲食品",
+    "icon": "<i class=\"bi bi-cup-straw\"></i>"
+  },
+  {
+    "name": "其他",
+    "icon": "<i class=\"bi bi-flag-fill\"></i>"
+  }
+]
