@@ -6,3 +6,24 @@
 body {
   font-family: 'Noto Serif TC', serif;
 }
+
+/* add new expense button */
+.add-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  font-size: 3rem;
+  color: #fff;
+  background-color: #1a1a1a;
+  width: 3.25rem;
+  height: 3.25rem;
+  transform: rotate(45deg);
+  box-shadow: 0 0 0.75rem 0 rgba(26, 26, 26, 0.4);
+}
+
+.add-button i {
+  transform: rotate(-45deg);
+}
