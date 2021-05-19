@@ -24,4 +24,25 @@ router.get('/', (req, res) => {
     })
 })
 
+router.post('/filter', (req, res) => {
+  const selectedCategory = req.body.category
+  Record
+    .aggregate([
+      {
+        // similar to find({}, {category: selectedCategory})
+        $match: { category: selectedCategory }
+      },
+      {
+        // join with collection 'categories'
+        $lookup: {
+          from: 'categories',
+          localField: 'category',
+          foreignField: 'name',
+          as: 'iconPair'
+        }
+      }
+    ])
+    .then(results => res.send(results))
+})
+
 module.exports = router
