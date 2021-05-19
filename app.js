@@ -11,6 +11,7 @@ const routes = require('./routes')
 
 app.engine('handlebars', expressHandlebars({ helpers: helpers, defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(express.static('public'))
