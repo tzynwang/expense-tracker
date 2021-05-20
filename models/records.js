@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 
-const recordSchema = new Schema({
+const recordSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
