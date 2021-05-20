@@ -1,39 +1,37 @@
-{
-  "results": [
-    {
-      "name": "房租",
-      "category": "家居物業",
-      "amount": "25000"
-    },
-    {
-      "name": "月票",
-      "category": "交通出行",
-      "amount": "1280"
-    },
-    {
-      "name": "SWITCH + 健身環",
-      "category": "休閒娛樂",
-      "amount": "10980"
-    },
-    {
-      "name": "早餐",
-      "category": "餐飲食品",
-      "amount": "80"
-    },
-    {
-      "name": "午餐",
-      "category": "餐飲食品",
-      "amount": "120"
-    },
-    {
-      "name": "晚餐",
-      "category": "餐飲食品",
-      "amount": "100"
-    },
-    {
-      "name": "紅色炸彈",
-      "category": "其他",
-      "amount": "2200"
-    }
-  ]
-}
+[
+  {
+    "name": "房租",
+    "category": "家居物業",
+    "amount": "25000"
+  },
+  {
+    "name": "月票",
+    "category": "交通出行",
+    "amount": "1280"
+  },
+  {
+    "name": "SWITCH + 健身環",
+    "category": "休閒娛樂",
+    "amount": "10980"
+  },
+  {
+    "name": "早餐",
+    "category": "餐飲食品",
+    "amount": "80"
+  },
+  {
+    "name": "午餐",
+    "category": "餐飲食品",
+    "amount": "120"
+  },
+  {
+    "name": "晚餐",
+    "category": "餐飲食品",
+    "amount": "100"
+  },
+  {
+    "name": "紅色炸彈",
+    "category": "其他",
+    "amount": "2200"
+  }
+]

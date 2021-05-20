@@ -3,15 +3,16 @@ const db = require('../../config/mongoose')
 
 const sampleRecords = require('../../sampleRecords.json')
 
-db.once('open', () => {
+db.once('open', async function () {
   console.log('mongodb connect')
-  sampleRecords.results.forEach(eachRecord => {
-    Records.create({
-      name: eachRecord.name,
-      category: eachRecord.category,
+  for (const record of sampleRecords) {
+    await Records.create({
+      name: record.name,
+      category: record.category,
       date: new Date().toISOString().slice(0, 10), // the date that runs seeds scripts
-      amount: eachRecord.amount
+      amount: record.amount
     })
-  })
+  }
   console.log('Generate records by seeder DONE')
+  db.close()
 })
