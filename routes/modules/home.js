@@ -9,7 +9,7 @@ router
     // find all expense record
     Record.find()
       .lean()
-      .sort({ date: 'asc' })
+      .sort({ date: 'desc' })
       .then(records => {
         let totalAmount = 0
         records.forEach(record => {
@@ -19,6 +19,7 @@ router
         // get categories
         Category.find()
           .lean()
+          .sort({ _id: 'asc' })
           .then(categories => {
             res.render('index', { records, categories, totalAmount })
           })
