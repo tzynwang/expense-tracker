@@ -1,10 +1,10 @@
 const Categories = require('../categories')
 const db = require('../../config/mongoose')
 
-const categoryArray = require('../../sampleCategories.json')
+const categoryArray = require('./sampleCategories.json')
 
 db.once('open', () => {
-  console.log('mongodb connect')
+  console.log('mongodb connect categories')
   Categories.create(categoryArray)
     .then(() => {
       console.log('Generate categories by seeder DONE')

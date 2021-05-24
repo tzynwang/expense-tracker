@@ -1,10 +1,10 @@
 const Records = require('../records')
 const db = require('../../config/mongoose')
 
-const sampleRecords = require('../../sampleRecords.json')
+const sampleRecords = require('./sampleRecords.json')
 
 db.once('open', async function () {
-  console.log('mongodb connect')
+  console.log('mongodb connect records')
   for (const record of sampleRecords) {
     await Records.create({
       name: record.name,
