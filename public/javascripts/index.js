@@ -58,7 +58,6 @@ const controller = {
       category: category
     })
       .then(response => {
-        console.log(response.data)
         view.displayResult(response.data)
       })
       .catch(error => console.log(error))
