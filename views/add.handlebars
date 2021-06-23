@@ -10,7 +10,7 @@
       <label for="category" class="form-label">類別：</label>
       <select class="form-select" name="category" required>
         <option value="" disabled>--請選擇--</option>
-        {{#forEach categoryResult}}
+        {{#forEach categories}}
         <option value="{{name}}" {{#is name ../userInput.category}} selected {{/is}}>{{name}}</option>
         {{/forEach}}
       </select>
