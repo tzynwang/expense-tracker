@@ -4,9 +4,9 @@
     <label for="category" class="h3">帳目類型：</label>
     <select name="category" id="category" class="form-select">
       <option selected disabled>--請選擇--</option>
-      {{#forEach categories}}
-      <option value="{{name}}">{{name}}</option>
-      {{/forEach}}
+      {{#each categories}}
+      <option value="{{this.name}}">{{this.name}}</option>
+      {{/each}}
     </select>
   </div>
   <div class="mb-3">
@@ -16,11 +16,9 @@
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <span>
           {{this.date}}
-          {{#forEach ../categories}}
-          {{#is name ../this.category}}
-          {{{icon}}}
-          {{/is}}
-          {{/forEach}}
+          {{#each ../categories}}
+          {{#is ../this.category this.name}} {{{this.icon}}} {{/is}}
+          {{/each}}
           {{this.name}}
         </span>
         <span>

@@ -53,18 +53,13 @@ const view = {
 }
 
 const controller = {
-  getFilterResults (category) {
-    axios.post('/filter', {
-      category: category
-    })
-      .then(response => {
-        view.displayResult(response.data)
-      })
-      .catch(error => console.log(error))
+  async getFilterResults (category) {
+    return await axios.post('/filter', { category })
   }
 }
 
-elementObjects.select.addEventListener('change', (event) => {
+elementObjects.select.addEventListener('change', async (event) => {
   const category = event.target.value
-  controller.getFilterResults(category)
+  const response = await controller.getFilterResults(category)
+  view.displayResult(response.data)
 })
