@@ -4,46 +4,32 @@ const router = express.Router()
 const Record = require('../../models/records')
 const Category = require('../../models/categories')
 
-router
-  .get('/', (req, res) => {
-    // find all expense record
-    Record.find()
-      .lean()
-      .sort({ date: 'desc' })
-      .then(records => {
-        let totalAmount = 0
-        records.forEach(record => {
-          // calculate total expense amount
-          totalAmount += record.amount
-        })
-        // get categories
-        Category.find()
-          .lean()
-          .sort({ _id: 'asc' })
-          .then(categories => {
-            res.render('index', { records, categories, totalAmount })
-          })
-      })
-  })
-  .post('/filter', (req, res) => {
-    const selectedCategory = req.body.category
-    Record
-      .aggregate([
-        {
-          // similar to find({}, {category: selectedCategory})
-          $match: { category: selectedCategory }
-        },
-        {
-          // join with collection 'categories'
-          $lookup: {
-            from: 'categories',
-            localField: 'category',
-            foreignField: 'name',
-            as: 'iconPair'
-          }
-        }
-      ])
-      .then(results => res.send(results))
-  })
+router.get('/', async (req, res) => {
+  const records = await Record.find().sort({ date: 'desc' }).lean()
+  let totalAmount = 0
+  records.forEach(record => (totalAmount += record.amount))
+  const categories = await Category.find().lean()
+  res.render('index', { records, categories, totalAmount })
+})
+
+router.post('/filter', async (req, res) => {
+  const { category } = req.body
+  const results = await Record.aggregate([
+    {
+      // similar to find({}, { category })
+      $match: { category }
+    },
+    {
+      // join with collection 'categories'
+      $lookup: {
+        from: 'categories',
+        localField: 'category',
+        foreignField: 'name',
+        as: 'iconPair'
+      }
+    }
+  ])
+  res.send(results)
+})
 
 module.exports = router
