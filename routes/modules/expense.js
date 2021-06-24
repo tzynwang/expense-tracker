@@ -21,7 +21,7 @@ router.post('/add', async (req, res) => {
   }
 
   for (const key in userInput) {
-    if (!userInput[key].length || userInput[key] === undefined) {
+    if (!userInput[key]) {
       res.render('add', { categories, userInput, errorMessage: '四個選項都須填寫資料' })
       return
     }
