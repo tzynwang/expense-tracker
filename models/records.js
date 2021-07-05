@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
-
-const recordSchema = new mongoose.Schema({
+const Schema = mongoose.Schema
+const recordSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId
+  },
   name: {
     type: String,
     trim: true,
@@ -16,6 +19,11 @@ const recordSchema = new mongoose.Schema({
   },
   amount: {
     type: Number,
+    required: true
+  },
+  isDelete: {
+    type: Boolean,
+    default: false,
     required: true
   }
 })

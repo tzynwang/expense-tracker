@@ -4,6 +4,9 @@ const router = express.Router()
 const Record = require('../../models/records')
 const Category = require('../../models/categories')
 
+const { hasLoggedIn } = require('../../auth/auth')
+router.use(hasLoggedIn)
+
 // add (view)
 router.get('/add', async (req, res) => {
   const categories = await Category.find().lean()
@@ -28,7 +31,7 @@ router.post('/add', async (req, res) => {
   }
 
   const { name, category, date, amount } = req.body
-  await Record.create({ name, category, date, amount })
+  await Record.create({ name, category, date, amount, userId: req.user._id })
   res.redirect('/')
 })
 
@@ -53,7 +56,7 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const id = req.params.id
-  await Record.findOneAndRemove({ _id: id })
+  await Record.findOneAndUpdate({ _id: id }, { isDelete: true })
   res.redirect('/')
 })
 
