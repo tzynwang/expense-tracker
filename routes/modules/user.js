@@ -14,6 +14,9 @@ const passport = require('passport')
 // only direct not logged in user to login or register endpoint
 const { hasLoggedIn, hasLoggedOut } = require('../../auth/auth')
 
+// download record data
+const { download } = require('../../controller/recordsDownload')
+
 router.get('/', hasLoggedIn, async (req, res) => {
   const user = await User.findOne({ _id: req.user._id }).lean()
   const avatar = user.avatar ? `data:image${user.avatar.contentType};base64,${user.avatar.data.toString('base64')}` : null
@@ -115,6 +118,10 @@ router.post('/register', async (req, res) => {
   await newUser.save()
   req.flash('registerSuccess', '註冊成功，您現在可以登入了 😊')
   res.redirect('/user/login')
+})
+
+router.get('/download', (req, res) => {
+  download(req, res)
 })
 
 router.get('/logout', (req, res) => {
