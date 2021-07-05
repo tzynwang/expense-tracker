@@ -1,0 +1,38 @@
+{{!-- for register or user setting update errors --}}
+{{#if formErrors}}
+{{#each formErrors}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{this.message}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/each}}
+{{/if}}
+
+{{#if registerSuccess}}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  {{registerSuccess}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
+
+{{#if logoutSuccess}}
+<div class="alert alert-info alert-dismissible fade show logout-success" role="alert">
+  {{logoutSuccess}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
+
+{{#if passportLocalError}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{passportLocalError}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
+
+{{!-- for middleware hasLoggedIn() --}}
+{{#if loginHint}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  {{loginHint}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if }}

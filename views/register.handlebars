@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-8 mx-auto">
+      <h1 class="my-3">註冊</h1>
+      {{>formMessages}}
+      <form action="/user/register" method="POST">
+        <div class="mb-3">
+          <label for="username" class="form-label">使用者名稱</label>
+          <input type="text" class="form-control" id="username" name="username" max="16">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email*</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">密碼*</label>
+          <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" min="6" max="18" required>
+          <div id="passwordHelp" class="form-text">長度限制為6至18字元</div>
+        </div>
+        <div class="mb-3">
+          <label for="passwordConfirm" class="form-label">確認密碼*</label>
+          <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" min="6" max="18" required>
+        </div>
+        {{>buttonsGroup}}
+      </form>
+    </div>
+  </div>
+</div>
