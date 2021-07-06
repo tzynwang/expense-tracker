@@ -1,9 +1,4 @@
-const elementObjects = {
-  select: document.querySelector('#category'),
-  listGroup: document.querySelector('.list-group'),
-  modals: document.querySelector('.modals'),
-  totalAmount: document.querySelector('p.h1')
-}
+const { elementObjects } = require('./elementObjects')
 
 const view = {
   displayResult (results) {
@@ -52,14 +47,4 @@ const view = {
   }
 }
 
-const controller = {
-  async getFilterResults (category) {
-    return await axios.post('/filter', { category })
-  }
-}
-
-elementObjects.select.addEventListener('change', async (event) => {
-  const category = event.target.value
-  const response = await controller.getFilterResults(category)
-  view.displayResult(response.data)
-})
+module.exports = { view }

@@ -11,7 +11,29 @@ router.get('/', hasLoggedIn, async (req, res) => {
   let totalAmount = 0
   records.forEach(record => (totalAmount += record.amount))
   const categories = await Category.find().lean()
-  res.render('index', { records, categories, totalAmount })
+  res.render('index', { records, categories, totalAmount, indexScripts: true })
+})
+
+router.post('/', hasLoggedIn, async (req, res) => {
+  const results = await Record.aggregate([
+    {
+      $match: {
+        userId: req.user._id,
+        isDelete: false
+      }
+    },
+    {
+      $group: {
+        _id: '$category',
+        amount: {
+          $sum: {
+            $sum: '$amount'
+          }
+        }
+      }
+    }
+  ])
+  res.send(results)
 })
 
 router.post('/filter', hasLoggedIn, async (req, res) => {
