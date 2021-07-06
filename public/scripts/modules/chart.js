@@ -39,4 +39,4 @@ async function renderChart () {
   })
 }
 
-renderChart()
+if (elementObjects.chart) renderChart()

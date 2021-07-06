@@ -14870,7 +14870,7 @@ async function renderChart () {
   })
 }
 
-renderChart()
+if (elementObjects.chart) renderChart()
 
 },{"./elementObjects":31,"axios":1,"chart.js":28}],31:[function(require,module,exports){
 const elementObjects = {
