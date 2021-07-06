@@ -7,7 +7,8 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "seed": "node models/seeds/userSeeder.js && node models/seeds/categorySeeder.js && node models/seeds/recordSeeder.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "bundleIndex": "browserify public/scripts/modules/index.js > public/scripts/indexBundle.js",
+    "bundleChart": "browserify public/scripts/modules/chart.js > public/scripts/chartBundle.js"
   },
   "repository": {
     "type": "git",
@@ -35,5 +36,10 @@
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "axios": "^0.21.1",
+    "browserify": "^17.0.0",
+    "chart.js": "^3.4.1"
   }
 }
