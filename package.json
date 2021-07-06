@@ -7,7 +7,7 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "seed": "node models/seeds/userSeeder.js && node models/seeds/categorySeeder.js && node models/seeds/recordSeeder.js",
-    "bundleIndex": "browserify public/scripts/modules/index.js > public/scripts/indexBundle.js",
+    "bundleFilter": "browserify public/scripts/modules/filter.js > public/scripts/filterBundle.js",
     "bundleChart": "browserify public/scripts/modules/chart.js > public/scripts/chartBundle.js"
   },
   "repository": {
