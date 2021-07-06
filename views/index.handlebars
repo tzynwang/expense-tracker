@@ -1,21 +1,27 @@
 <main class="container my-5">
   <p>歡迎回來{{#if username}}，{{username}}{{else}}👋{{/if}}</p>
   <p class="h1">統計金額：{{totalAmount}}元</p>
-  {{#if records}}
-  <div>
-    <canvas id="chart"></canvas>
-  </div>
-  {{/if}}
+
+  {{!-- filter --}}
   <div class="my-3">
-    <label for="category" class="h3">帳目類型：</label>
-    <select name="category" id="category" class="form-select">
-      <option selected disabled>--請選擇--</option>
-      {{#each categories}}
-      <option value="{{this.name}}">{{this.name}}</option>
-      {{/each}}
-    </select>
+    <label for="category" class="h3">帳目篩選：</label>
+    <div class="row">
+      <div class="col-12 col-sm-6 my-1">
+        <input type="month" name="month" id="month" class="form-control">
+      </div>
+      <div class="col-12 col-sm-6 my-1">
+        <select name="category" id="category" class="form-select">
+          <option selected disabled>--請選擇--</option>
+          {{#each categories}}
+          <option value="{{this.name}}">{{this.name}}</option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
   </div>
-  <div class="mb-3">
+
+  {{!-- expense list --}}
+  <div class="my-3">
     <p class="h3">帳目一覽：</p>
     <ul class="list-group">
       {{#each records}}
@@ -40,12 +46,20 @@
       {{/each}}
     </ul>
   </div>
-  <!-- Add button -->
+
+  {{!-- chart --}}
+  {{#if records}}
+  <div class="my-3">
+    <canvas id="chart"></canvas>
+  </div>
+  {{/if}}
+
+  {{!-- Add button --}}
   <a href="/expense/add" class="add-button">
     <i class="bi bi-plus"></i>
   </a>
 
-  <!-- Modal -->
+  {{!-- Modal --}}
   <div class="modals">
     {{#each records}}
     <div class="modal fade" id="deleteModal{{this._id}}" tabindex="-1" aria-hidden="true">
