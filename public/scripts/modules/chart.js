@@ -1,13 +1,16 @@
-async function getRecords () {
+const axios = require('axios')
+const Chart = require('chart.js')
+const { elementObjects } = require('./elementObjects')
+
+async function renderChart () {
   const response = await axios.post('/')
 
   const labels = []
   response.data.forEach(item => (labels.push(item._id)))
-
   const data = []
   response.data.forEach(item => (data.push(item.amount)))
 
-  const chart = document.querySelector('#chart').getContext('2d')
+  const chart = elementObjects.chart.getContext('2d')
   const myChart = new Chart(chart, {
     type: 'bar',
     data: {
@@ -36,4 +39,4 @@ async function getRecords () {
   })
 }
 
-getRecords()
+renderChart()
