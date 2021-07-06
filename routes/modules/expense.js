@@ -15,23 +15,15 @@ router.get('/add', async (req, res) => {
 
 // add (add)
 router.post('/add', async (req, res) => {
+  const { name, category, date, amount, merchant } = req.body
   const userInput = req.body
   const categories = await Category.find().lean()
 
-  if (Object.keys(userInput).length !== 4) {
-    res.render('add', { categories, userInput, errorMessage: '四個選項都須填寫資料' })
-    return
+  if (!name.trim().length || !category.trim().length || !date.trim().length || !amount.trim().length) {
+    return res.render('add', { categories, userInput, errorMessage: '有*的項目皆為必填' })
   }
 
-  for (const key in userInput) {
-    if (!userInput[key]) {
-      res.render('add', { categories, userInput, errorMessage: '四個選項都須填寫資料' })
-      return
-    }
-  }
-
-  const { name, category, date, amount } = req.body
-  await Record.create({ name, category, date, amount, userId: req.user._id })
+  await Record.create({ name, category, date, amount, merchant, userId: req.user._id })
   res.redirect('/')
 })
 

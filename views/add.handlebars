@@ -1,28 +1,36 @@
 <main class="container my-5">
-  <form action="" method="POST" autocomplete="off">
-    <h1>新增項目</h1>
-    <p>{{errorMessage}}</p>
-    <div class="mb-3">
-      <label for="name" class="form-label">項目名稱：</label>
-      <input type="text" class="form-control" id="name" name="name" value="{{userInput.name}}" required>
+  <div class="row">
+    <div class="col-12 col-md-8 mx-auto">
+      <form action="" method="POST" autocomplete="off">
+        <h1>新增項目</h1>
+        {{>formMessages}}
+        <div class="mb-3">
+          <label for="name" class="form-label">*項目名稱：</label>
+          <input type="text" class="form-control" id="name" name="name" value="{{userInput.name}}" required>
+        </div>
+        <div class="mb-3">
+          <label for="category" class="form-label">*類別：</label>
+          <select class="form-select" name="category" required>
+            <option value="" disabled>--請選擇--</option>
+            {{#forEach categories}}
+            <option value="{{name}}" {{#is name ../userInput.category}} selected {{/is}}>{{name}}</option>
+            {{/forEach}}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="date" class="form-label">*日期：</label>
+          <input type="date" class="form-control" id="date" name="date" required>
+        </div>
+        <div class="mb-3">
+          <label for="amount" class="form-label">*金額：</label>
+          <input type="number" class="form-control" id="amount" name="amount" value="{{userInput.amount}}" required>
+        </div>
+        <div class="mb-3">
+          <label for="merchant" class="form-label">商家：</label>
+          <input type="text" class="form-control" id="merchant" name="merchant" value="{{userInput.merchant}}">
+        </div>
+        <button type="submit" class="btn btn-primary">新增</button>
+      </form>
     </div>
-    <div class="mb-3">
-      <label for="category" class="form-label">類別：</label>
-      <select class="form-select" name="category" required>
-        <option value="" disabled>--請選擇--</option>
-        {{#forEach categories}}
-        <option value="{{name}}" {{#is name ../userInput.category}} selected {{/is}}>{{name}}</option>
-        {{/forEach}}
-      </select>
-    </div>
-    <div class="mb-3">
-      <label for="date" class="form-label">日期：</label>
-      <input type="date" class="form-control" id="date" name="date" required>
-    </div>
-    <div class="mb-3">
-      <label for="amount" class="form-label">金額：</label>
-      <input type="number" class="form-control" id="amount" name="amount" value="{{userInput.amount}}" required>
-    </div>
-    <button type="submit" class="btn btn-primary">新增</button>
-  </form>
+  </div>
 </main>
