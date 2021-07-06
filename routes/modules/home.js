@@ -44,34 +44,6 @@ router.post('/', hasLoggedIn, async (req, res) => {
   res.send(results)
 })
 
-router.post('/filter', hasLoggedIn, async (req, res) => {
-  const { condition } = req.body
-  const category = condition.category ? condition.category : ''
-  const date = condition.date ? condition.date : ''
-
-  const results = await Record.aggregate([
-    {
-      // similar to find({ category })
-      $match: {
-        userId: req.user._id,
-        isDelete: false,
-        category: { $regex: category },
-        date: { $regex: date }
-      }
-    },
-    {
-      // join with collection 'categories'
-      $lookup: {
-        from: 'categories',
-        localField: 'category',
-        foreignField: 'name',
-        as: 'iconPair'
-      }
-    }
-  ])
-  res.send(results)
-})
-
 router.get('/welcome', hasLoggedOut, (req, res) => {
   res.render('welcome', { notNavBar: true })
 })

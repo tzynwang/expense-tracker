@@ -7,6 +7,34 @@ const Category = require('../../models/categories')
 const { hasLoggedIn } = require('../../auth/auth')
 router.use(hasLoggedIn)
 
+router.post('/filter', hasLoggedIn, async (req, res) => {
+  const { condition } = req.body
+  const category = condition.category ? condition.category : ''
+  const date = condition.date ? condition.date : ''
+
+  const results = await Record.aggregate([
+    {
+      // similar to find({ category })
+      $match: {
+        userId: req.user._id,
+        isDelete: false,
+        category: { $regex: category },
+        date: { $regex: date }
+      }
+    },
+    {
+      // join with collection 'categories'
+      $lookup: {
+        from: 'categories',
+        localField: 'category',
+        foreignField: 'name',
+        as: 'iconPair'
+      }
+    }
+  ])
+  res.send(results)
+})
+
 // add (view)
 router.get('/add', async (req, res) => {
   const categories = await Category.find().lean()
