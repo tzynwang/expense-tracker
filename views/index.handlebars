@@ -5,13 +5,13 @@
   {{!-- filter --}}
   <div class="my-3">
     <label for="category" class="h3">帳目篩選：</label>
-    <div class="row">
+    <div class="row" id="filterConditions">
       <div class="col-12 col-sm-6 my-1">
         <input type="month" name="month" id="month" class="form-control">
       </div>
       <div class="col-12 col-sm-6 my-1">
         <select name="category" id="category" class="form-select">
-          <option selected disabled>--請選擇--</option>
+          <option selected disabled value="">--請選擇--</option>
           {{#each categories}}
           <option value="{{this.name}}">{{this.name}}</option>
           {{/each}}
@@ -35,12 +35,8 @@
         </span>
         <span>
           {{this.amount}}元
-          <a href="/expense/{{this._id}}" class="btn btn-primary">
-            <i class="bi bi-pencil-square"></i>
-          </a>
-          <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deleteModal{{this._id}}">
-            <i class="bi bi-trash-fill"></i>
-          </button>
+          <a href="/expense/{{this._id}}" class="btn btn-primary">修改</a>
+          <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deleteModal{{this._id}}">刪除</button>
         </span>
       </li>
       {{/each}}

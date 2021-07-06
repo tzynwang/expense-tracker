@@ -38,11 +38,19 @@ router.post('/', hasLoggedIn, async (req, res) => {
 })
 
 router.post('/filter', hasLoggedIn, async (req, res) => {
-  const { category } = req.body
+  const { condition } = req.body
+  const category = condition.category ? condition.category : ''
+  const date = condition.date ? condition.date : ''
+
   const results = await Record.aggregate([
     {
       // similar to find({ category })
-      $match: { category, userId: req.user._id }
+      $match: {
+        userId: req.user._id,
+        isDelete: false,
+        category: { $regex: category },
+        date: { $regex: date }
+      }
     },
     {
       // join with collection 'categories'
