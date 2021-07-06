@@ -14,6 +14,28 @@ router.get('/', hasLoggedIn, async (req, res) => {
   res.render('index', { records, categories, totalAmount })
 })
 
+router.post('/', hasLoggedIn, async (req, res) => {
+  const results = await Record.aggregate([
+    {
+      $match: {
+        userId: req.user._id,
+        isDelete: false
+      }
+    },
+    {
+      $group: {
+        _id: '$category',
+        amount: {
+          $sum: {
+            $sum: '$amount'
+          }
+        }
+      }
+    }
+  ])
+  res.send(results)
+})
+
 router.post('/filter', hasLoggedIn, async (req, res) => {
   const { category } = req.body
   const results = await Record.aggregate([
