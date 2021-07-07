@@ -1,7 +1,7 @@
 const Record = require('../models/records')
 const excel = require('exceljs')
 
-async function download(req, res) {
+async function download (req, res) {
   const records = await Record.find({
     userId: req.user._id,
     isDelete: false
@@ -15,7 +15,8 @@ async function download(req, res) {
       name: record.name,
       category: record.category,
       date: record.date,
-      amount: record.amount
+      amount: record.amount,
+      merchant: record.merchant
     })
   })
 
@@ -23,10 +24,11 @@ async function download(req, res) {
   const worksheet = workbook.addWorksheet('Records')
 
   worksheet.columns = [
-    { header: 'Name', key: 'name' },
-    { header: 'Category', key: 'category' },
-    { header: 'Date', key: 'date' },
-    { header: 'Amount', key: 'amount' }
+    { header: '項目名稱', key: 'name' },
+    { header: '類別', key: 'category' },
+    { header: '日期', key: 'date' },
+    { header: '金額', key: 'amount' },
+    { header: '商家', key: 'merchant' }
   ]
   worksheet.addRows(toDownload)
 

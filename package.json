@@ -8,7 +8,9 @@
     "dev": "nodemon app.js",
     "seed": "node models/seeds/userSeeder.js && node models/seeds/categorySeeder.js && node models/seeds/recordSeeder.js",
     "bundleFilter": "browserify public/scripts/modules/filter.js > public/scripts/filterBundle.js",
-    "bundleChart": "browserify public/scripts/modules/chart.js > public/scripts/chartBundle.js"
+    "bundleChart": "browserify public/scripts/modules/chart.js > public/scripts/chartBundle.js",
+    "watchFilter": "watchify public/scripts/modules/filter.js -o public/scripts/filterBundle.js",
+    "watchChart": "watchify public/scripts/modules/chart.js -o public/scripts/chartBundle.js"
   },
   "repository": {
     "type": "git",
@@ -40,6 +42,7 @@
   "devDependencies": {
     "axios": "^0.21.1",
     "browserify": "^17.0.0",
-    "chart.js": "^3.4.1"
+    "chart.js": "^3.4.1",
+    "watchify": "^4.0.0"
   }
 }

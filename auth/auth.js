@@ -13,9 +13,9 @@ function hasLoggedOut (req, res, next) {
   res.redirect('/')
 }
 
-function navButtons (req, res, next) {
+function setAuthStatus (req, res, next) {
   res.locals.isAuthenticated = req.isAuthenticated()
   return next()
 }
 
-module.exports = { hasLoggedIn, hasLoggedOut, navButtons }
+module.exports = { hasLoggedIn, hasLoggedOut, setAuthStatus }

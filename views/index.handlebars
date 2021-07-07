@@ -1,82 +1,85 @@
 <main class="container my-5">
-  <p>歡迎回來{{#if username}}，{{username}}{{else}}👋{{/if}}</p>
-  <p class="h1">統計金額：{{totalAmount}}元</p>
+  <div class="row">
+    <div class="col-12 col-md-8 mx-auto">
+      <p>歡迎回來{{#if username}}，{{username}}{{else}}👋{{/if}}</p>
+      <p class="h1">統計金額：{{totalAmount}}元</p>
 
-  {{!-- filter --}}
-  <div class="my-3">
-    <label for="category" class="h3">帳目篩選：</label>
-    <div class="row" id="filterConditions">
-      <div class="col-12 col-sm-6 my-1">
-        <input type="month" name="month" id="month" class="form-control" value={{currentMonth}}>
-      </div>
-      <div class="col-12 col-sm-6 my-1">
-        <select name="category" id="category" class="form-select">
-          <option selected disabled value="">--請選擇--</option>
-          {{#each categories}}
-          <option value="{{this.name}}">{{this.name}}</option>
-          {{/each}}
-        </select>
-      </div>
-    </div>
-  </div>
-
-  {{!-- expense list --}}
-  <div class="my-3">
-    <p class="h3">帳目一覽：</p>
-    <ul class="list-group">
-      {{#each records}}
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <span>
-          {{this.date}}
-          {{#each ../categories}}
-          {{#is ../this.category this.name}} {{{this.icon}}} {{/is}}
-          {{/each}}
-          {{this.name}}
-        </span>
-        <span>
-          {{this.amount}}元
-          <a href="/expense/{{this._id}}" class="btn btn-primary">修改</a>
-          <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deleteModal{{this._id}}">刪除</button>
-        </span>
-      </li>
-      {{/each}}
-    </ul>
-  </div>
-
-  {{!-- chart --}}
-  {{#if records}}
-  <div class="my-3">
-    <canvas id="chart"></canvas>
-  </div>
-  {{/if}}
-
-  {{!-- Add button --}}
-  <a href="/expense/add" class="add-button">
-    <i class="bi bi-plus"></i>
-  </a>
-
-  {{!-- Modal --}}
-  <div class="modals">
-    {{#each records}}
-    <div class="modal fade" id="deleteModal{{this._id}}" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <p class="h5 modal-title">確認刪除</p>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      {{!-- filter --}}
+      <div class="my-3">
+        <label for="category" class="h3">帳目篩選：</label>
+        <div class="row" id="filterConditions">
+          <div class="col-12 col-sm-6 my-1">
+            <input type="month" name="month" id="month" class="form-control" value={{currentMonth}}>
           </div>
-          <div class="modal-body">
-            確認要刪除帳目「{{this.name}}」嗎？
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-            <form action="/expense/{{this._id}}?_method=DELETE" method="POST">
-              <button type="submit" class="btn btn-primary">確認刪除</button>
-            </form>
+          <div class="col-12 col-sm-6 my-1">
+            <select name="category" id="category" class="form-select">
+              <option selected value="">全類別</option>
+              {{#each categories}}
+              <option value="{{this.name}}">{{this.name}}</option>
+              {{/each}}
+            </select>
           </div>
         </div>
       </div>
+
+      {{!-- expense list --}}
+      <div class="my-3">
+        <p class="h3">帳目一覽：</p>
+        <ul class="list-group">
+          {{#each records}}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
+              {{this.date}}
+              {{#each ../categories}}
+              {{#is ../this.category this.name}} {{{this.icon}}} {{/is}}
+              {{/each}}
+              {{this.name}}
+            </span>
+            <span>
+              {{this.amount}}元
+              <a href="/expense/{{this._id}}" class="btn btn-primary">修改</a>
+              <button class="btn btn-warning" data-bs-toggle="modal"
+                data-bs-target="#deleteModal{{this._id}}">刪除</button>
+            </span>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+
+      {{!-- chart --}}
+      {{#if records}}
+      <div class="my-3" id="chartContainer"></div>
+      {{/if}}
+
+      {{!-- Add button --}}
+      <a href="/expense/add" class="add-button">
+        <i class="bi bi-plus"></i>
+      </a>
+
+      {{!-- Modal --}}
+      <div class="modals">
+        {{#each records}}
+        <div class="modal fade" id="deleteModal{{this._id}}" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <p class="h5 modal-title">確認刪除</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                確認要刪除帳目「{{this.name}}」嗎？
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <form action="/expense/{{this._id}}?_method=DELETE" method="POST">
+                  <button type="submit" class="btn btn-primary">確認刪除</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
     </div>
-    {{/each}}
   </div>
 </main>
