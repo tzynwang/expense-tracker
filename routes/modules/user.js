@@ -17,6 +17,10 @@ const { hasLoggedIn, hasLoggedOut } = require('../../auth/auth')
 // download record data
 const { download } = require('../../controller/recordsDownload')
 
+const jwt = require('jsonwebtoken')
+const privateKey = process.env.SESSION_SECRET_KEY || 'The quick brown fox jumps over the lazy dog'
+const nodemailer = require('nodemailer')
+
 router.get('/', hasLoggedIn, async (req, res) => {
   const user = await User.findOne({ _id: req.user._id }).lean()
   const avatar = user.avatar ? `data:image${user.avatar.contentType};base64,${user.avatar.data.toString('base64')}` : null
@@ -118,6 +122,95 @@ router.post('/register', async (req, res) => {
   await newUser.save()
   req.flash('registerSuccess', '註冊成功，您現在可以登入了 😊')
   res.redirect('/user/login')
+})
+
+router.get('/resetPassword', (req, res) => {
+  res.render('resetPassword')
+})
+
+router.post('/resetPassword', async (req, res) => {
+  const { email } = req.body
+  const user = await User.findOne({ email })
+  if (!user) {
+    req.flash('error', '此Email並未註冊過，無法重設密碼')
+    res.redirect('/user/register')
+  }
+
+  const token = jwt.sign({ email, password: user.password }, privateKey, { expiresIn: '30m' })
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_ACCOUNT,
+      pass: process.env.EMAIL_PASSWORD
+    }
+  })
+  const expiredTime = new Date(Date.now() + 1.8e+6)
+  const mailOptions = {
+    from: process.env.EMAIL_ACCOUNT,
+    to: 'tzyn.wang@gmail.com', // TODO: change to user's email
+    subject: '【家庭記帳本】重設密碼',
+    html: `
+    <p>請<a target="_blank" href="http://localhost:3000/user/resetPassword/${token}">點此</a>重設密碼</p>
+    <p>本連結會在30分鐘後（${expiredTime}）失效</p>
+    `
+  }
+  transporter.sendMail(mailOptions)
+
+  req.flash('registerSuccess', '重設密碼的Email已發送')
+  res.redirect('/user/login')
+})
+
+router.get('/resetPassword/:token', (req, res) => {
+  const token = req.params.token
+  jwt.verify(token, privateKey, { maxAge: '30m' }, async (error, decoded) => {
+    if (error) {
+      req.flash('error', '金鑰無效')
+      res.redirect('/user/resetPassword')
+      return
+    }
+
+    const { email, password } = decoded
+    const user = await User.findOne({ email })
+
+    if (!user) {
+      req.flash('error', '此Email並未註冊過')
+      res.redirect('/user/register')
+    } else if (user.password !== password) {
+      req.flash('error', '此金鑰已重設過密碼')
+      res.redirect('/user/resetPassword')
+    } else {
+      res.render('resetPasswordForm', { token })
+    }
+  })
+})
+
+router.post('/resetPassword/:token', (req, res) => {
+  const token = req.params.token
+  jwt.verify(token, privateKey, async (error, decoded) => {
+    if (error) {
+      req.flash('error', '金鑰無效')
+      res.redirect('/user/resetPassword')
+    }
+
+    const { email } = decoded
+    const user = await User.findOne({ email })
+    if (!user) {
+      req.flash('error', '此Email並未註冊過')
+      res.redirect('/user/register')
+    }
+
+    const { password, passwordConfirm } = req.body
+    if (password !== passwordConfirm) return res.render('resetPasswordForm', { token, errorMessage: '密碼與確認密碼內容不同' })
+
+    const hashPassword = await bcrypt.hash(password, saltRounds)
+    if (hashPassword === user.password) return res.render('resetPasswordForm', { token, errorMessage: '新密碼不可與舊密碼內容一致' })
+
+    user.password = hashPassword
+    await user.save()
+    req.flash('registerSuccess', '密碼重設成功 😊')
+    res.redirect('/user/login')
+  })
 })
 
 router.get('/download', (req, res) => {
