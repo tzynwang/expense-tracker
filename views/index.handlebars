@@ -11,7 +11,7 @@
       </div>
       <div class="col-12 col-sm-6 my-1">
         <select name="category" id="category" class="form-select">
-          <option selected disabled value="">--請選擇--</option>
+          <option selected value="">全類別</option>
           {{#each categories}}
           <option value="{{this.name}}">{{this.name}}</option>
           {{/each}}
@@ -45,9 +45,7 @@
 
   {{!-- chart --}}
   {{#if records}}
-  <div class="my-3">
-    <canvas id="chart"></canvas>
-  </div>
+  <div class="my-3" id="chartContainer"></div>
   {{/if}}
 
   {{!-- Add button --}}

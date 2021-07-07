@@ -14833,15 +14833,17 @@ const axios = require('axios')
 const Chart = require('chart.js')
 const { elementObjects } = require('./elementObjects')
 
-async function renderChart () {
-  const response = await axios.post('/')
+async function renderChart (month = new Date().toISOString().slice(0, 7)) {
+  // reset canvas for new chart
+  elementObjects.chartContainer.innerHTML = '<canvas id="chart"></canvas>'
 
+  const response = await axios.post('/', { month })
   const labels = []
   response.data.forEach(item => (labels.push(item._id)))
   const data = []
   response.data.forEach(item => (data.push(item.amount)))
 
-  const chart = elementObjects.chart.getContext('2d')
+  const chart = document.querySelector('#chart').getContext('2d')
   const myChart = new Chart(chart, {
     type: 'bar',
     data: {
@@ -14870,15 +14872,19 @@ async function renderChart () {
   })
 }
 
-if (elementObjects.chart) renderChart()
+renderChart()
+
+module.exports = { renderChart }
 
 },{"./elementObjects":31,"axios":1,"chart.js":28}],31:[function(require,module,exports){
 const elementObjects = {
-  select: document.querySelector('#category'),
+  filterConditions: document.querySelector('#filterConditions'),
+  month: document.querySelector('#month'),
+  category: document.querySelector('#category'),
   listGroup: document.querySelector('.list-group'),
   modals: document.querySelector('.modals'),
   totalAmount: document.querySelector('p.h1'),
-  chart: document.querySelector('#chart')
+  chartContainer: document.querySelector('#chartContainer')
 }
 
 module.exports = { elementObjects }

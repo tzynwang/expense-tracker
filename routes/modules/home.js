@@ -27,6 +27,7 @@ router.post('/', hasLoggedIn, async (req, res) => {
     {
       $match: {
         userId: req.user._id,
+        date: { $regex: req.body.month },
         isDelete: false
       }
     },
