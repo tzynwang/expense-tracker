@@ -2,12 +2,14 @@ const { elementObjects } = require('./elementObjects')
 
 const view = {
   displayResult (results) {
-    elementObjects.listGroup.innerHTML = ''
-    elementObjects.modals.innerHTML = ''
     let updateTotalAmount = 0
-    results.forEach(result => {
-      updateTotalAmount += result.amount
-      elementObjects.listGroup.innerHTML += `
+
+    if (results.length) {
+      elementObjects.listGroup.innerHTML = ''
+      elementObjects.modals.innerHTML = ''
+      results.forEach(result => {
+        updateTotalAmount += result.amount
+        elementObjects.listGroup.innerHTML += `
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <span>
           ${result.date}
@@ -21,7 +23,7 @@ const view = {
         </span>
       </li>
       `
-      elementObjects.modals.innerHTML += `
+        elementObjects.modals.innerHTML += `
       <div class="modal fade" id="deleteModal${result._id}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -42,7 +44,12 @@ const view = {
         </div>
       </div>
       `
-    })
+      })
+    } else {
+      elementObjects.listGroup.innerHTML = `
+      <span>暫無符合此條件的帳目</span>
+      `
+    }
     elementObjects.totalAmount.innerHTML = `統計金額：${updateTotalAmount}元`
   }
 }
