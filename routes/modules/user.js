@@ -17,6 +17,11 @@ const { hasLoggedIn, hasLoggedOut } = require('../../auth/auth')
 // download record data
 const { download } = require('../../controller/recordsDownload')
 
+// for reset password
+const jwt = require('jsonwebtoken')
+const secretKey = process.env.SESSION_SECRET_KEY || 'The quick brown fox jumps over the lazy dog'
+const { resetPasswordMail } = require('../../auth/resetPasswordMail')
+
 router.get('/', hasLoggedIn, async (req, res) => {
   const user = await User.findOne({ _id: req.user._id }).lean()
   const avatar = user.avatar ? `data:image${user.avatar.contentType};base64,${user.avatar.data.toString('base64')}` : null
@@ -120,11 +125,84 @@ router.post('/register', async (req, res) => {
   res.redirect('/user/login')
 })
 
-router.get('/download', (req, res) => {
+router.get('/resetPassword', hasLoggedOut, (req, res) => {
+  res.render('resetPassword')
+})
+
+router.post('/resetPassword', async (req, res) => {
+  const { email } = req.body
+  const user = await User.findOne({ email })
+
+  if (!user) {
+    req.flash('error', '此Email並未註冊過，無法重設密碼')
+    res.redirect('/user/register')
+  } else if (user.type !== 'local') {
+    req.flash('error', '僅有非透過第三方帳號登入的使用者可以重設密碼')
+    res.redirect('/user/login')
+  } else {
+    const token = jwt.sign({ email, password: user.password }, secretKey, { expiresIn: '30m' })
+    resetPasswordMail(email, token)
+    req.flash('registerSuccess', '重設密碼的Email已發送')
+    res.redirect('/user/login')
+  }
+})
+
+router.get('/resetPassword/:token', hasLoggedOut, (req, res) => {
+  const token = req.params.token
+  jwt.verify(token, secretKey, { maxAge: '30m' }, async (error, decoded) => {
+    if (error) {
+      req.flash('error', '金鑰無效')
+      res.redirect('/user/resetPassword')
+    }
+
+    const { email, password } = decoded
+    const user = await User.findOne({ email })
+
+    if (!user) {
+      req.flash('error', '此Email並未註冊過')
+      res.redirect('/user/register')
+    } else if (user.password !== password) {
+      req.flash('error', '此金鑰已重設過密碼')
+      res.redirect('/user/login')
+    } else {
+      res.render('resetPasswordForm', { token })
+    }
+  })
+})
+
+router.post('/resetPassword/:token', (req, res) => {
+  const token = req.params.token
+  jwt.verify(token, secretKey, async (error, decoded) => {
+    if (error) {
+      req.flash('error', '金鑰無效')
+      res.redirect('/user/resetPassword')
+    }
+
+    const { email } = decoded
+    const user = await User.findOne({ email })
+    if (!user) {
+      req.flash('error', '此Email並未註冊過')
+      res.redirect('/user/register')
+    }
+
+    const { password, passwordConfirm } = req.body
+    if (password !== passwordConfirm) {
+      res.render('resetPasswordForm', { token, errorMessage: '密碼與確認密碼內容不同' })
+    } else {
+      const hashPassword = await bcrypt.hash(password, saltRounds)
+      user.password = hashPassword
+      await user.save()
+      req.flash('registerSuccess', '密碼重設成功 😊')
+      res.redirect('/user/login')
+    }
+  })
+})
+
+router.get('/download', hasLoggedIn, (req, res) => {
   download(req, res)
 })
 
-router.get('/logout', (req, res) => {
+router.get('/logout', hasLoggedIn, (req, res) => {
   req.logout()
   req.flash('logoutSuccess', '您已登出 👋')
   res.redirect('/welcome')
