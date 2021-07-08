@@ -1,6 +1,7 @@
 <main class="container my-5">
   <div class="row">
     <div class="col-12 col-md-8 mx-auto">
+      {{>breadcrumb}}
       <form action="/expense/{{record._id}}?_method=PUT" method="POST" autocomplete="off">
         <h1>編輯項目：「{{record.name}}」</h1>
         <div class="mb-3">

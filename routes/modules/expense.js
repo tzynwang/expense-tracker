@@ -38,7 +38,7 @@ router.post('/filter', hasLoggedIn, async (req, res) => {
 // add (view)
 router.get('/add', async (req, res) => {
   const categories = await Category.find().lean()
-  res.render('add', { categories })
+  res.render('add', { categories, breadcrumb: 'add' })
 })
 
 // add (add)
@@ -60,7 +60,7 @@ router.get('/:id', async (req, res) => {
   const id = req.params.id
   const record = await Record.findById(id).lean()
   const categories = await Category.find().lean()
-  res.render('edit', { record, categories })
+  res.render('edit', { record, categories, breadcrumb: 'edit' })
 })
 
 // edit page (edit)
