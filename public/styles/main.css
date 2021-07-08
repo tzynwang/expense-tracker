@@ -46,6 +46,7 @@ body {
 
 .avatar-32 img {
   clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+  object-fit: cover;
 }
 
 .avatar-32:hover {
@@ -58,4 +59,8 @@ body {
   width: 128px;
   height: 128px;
   clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+}
+
+.avatar-128 img {
+  object-fit: cover;
 }
