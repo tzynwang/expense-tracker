@@ -3,6 +3,7 @@ const router = express.Router()
 
 // DB
 const User = require('../../models/users')
+const Record = require('../../models/records')
 
 // password hash
 const bcrypt = require('bcrypt')
@@ -36,8 +37,12 @@ router.put('/', hasLoggedIn, async (req, res) => {
   const formErrors = []
 
   if (req.files) {
-    user.avatar.data = req.files.avatar.data
-    user.avatar.contentType = req.files.avatar.mimetype
+    if (req.files.avatar.mimetype === 'image/jpeg' || req.files.avatar.mimetype === 'image/png') {
+      user.avatar.data = req.files.avatar.data
+      user.avatar.contentType = req.files.avatar.mimetype
+    } else {
+      formErrors.push({ message: '頭像圖片僅支援jp(e)g或png格式之檔案' })
+    }
   }
   if (req.body.username) {
     req.body.username.trim().length
@@ -46,8 +51,8 @@ router.put('/', hasLoggedIn, async (req, res) => {
   }
   if (req.body.password) {
     const passwordLength = req.body.password.trim().length
-    if (passwordLength < 6 || passwordLength > 24) {
-      formErrors.push({ message: '密碼長度限制6到24個字元' })
+    if (passwordLength < 6 || passwordLength > 18) {
+      formErrors.push({ message: '密碼長度限制6到18個字元' })
     }
     if (req.body.password !== req.body.passwordConfirm) {
       formErrors.push({ message: '密碼與確認密碼內容不同' })
@@ -60,7 +65,7 @@ router.put('/', hasLoggedIn, async (req, res) => {
   if (formErrors.length) {
     req.session.updateSuccess = null
     req.session.formErrors = formErrors
-    res.redirect('user')
+    return res.redirect('/user')
   } else {
     req.session.updateSuccess = [{ message: '資料更新成功' }]
   }
@@ -76,7 +81,7 @@ router.delete('/', async (req, res) => {
     return res.redirect('/user')
   }
 
-  // await Restaurant.deleteMany({ userId: req.user._id })
+  await Record.deleteMany({ userId: req.user._id })
   await User.findOneAndDelete({ _id: req.user._id })
 
   req.logout()

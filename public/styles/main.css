@@ -36,3 +36,26 @@ body {
 .add-button i {
   transform: rotate(-45deg);
 }
+
+/* navBar avatar size */
+
+.avatar-32 {
+  width: 32px;
+  height: 32px;
+}
+
+.avatar-32 img {
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+}
+
+.avatar-32:hover {
+  cursor: pointer;
+}
+
+/* user setting avatar size */
+
+.avatar-128 {
+  width: 128px;
+  height: 128px;
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+}
