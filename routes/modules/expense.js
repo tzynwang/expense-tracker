@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
+const mongoose = require('mongoose')
+
 const Record = require('../../models/records')
 const Category = require('../../models/categories')
 
@@ -47,9 +49,7 @@ router.post('/add', async (req, res) => {
   const userInput = req.body
   const categories = await Category.find().lean()
 
-  if (!name.trim().length || !category.trim().length || !date.trim().length || !amount.trim().length) {
-    return res.render('add', { categories, userInput, errorMessage: '有*的項目皆為必填' })
-  }
+  if (!name.trim().length || !category.trim().length || !date.trim().length || !amount.trim().length) return res.render('add', { categories, userInput, errorMessage: '有*的項目皆為必填' })
 
   await Record.create({ name, category, date, amount, merchant, userId: req.user._id })
   res.redirect('/')
@@ -58,7 +58,11 @@ router.post('/add', async (req, res) => {
 // edit page (view)
 router.get('/:id', async (req, res) => {
   const id = req.params.id
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).render('404')
+
   const record = await Record.findById(id).lean()
+  if (!record) return res.status(404).render('404')
+
   const categories = await Category.find().lean()
   res.render('edit', { record, categories, breadcrumb: 'edit' })
 })

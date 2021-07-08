@@ -44,9 +44,14 @@ app.use(fileUpload())
 app.use(methodOverride('_method'))
 app.use(express.static('public'))
 app.use(routes)
+app.use((req, res) => {
+  res.status(404).render('404')
+})
 
 require('./config/mongoose')
 
 app.listen(port, (error) => {
-  error ? console.log('error', error) : console.log(`App is running on http://localhpst:${port}/welcome`)
+  error
+    ? console.log('error', error)
+    : console.log(`App is running on http://localhpst:${port}/welcome`)
 })
