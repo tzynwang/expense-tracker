@@ -1,0 +1,92 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-8 mx-auto my-3">
+      {{>formMessages}}
+    </div>
+  </div>
+  {{!-- avatar --}}
+  <div class="row mb-4">
+    <div class="col-12 col-md-8 mx-auto">
+      <form action="/user?_method=PUT" method="POST" encType="multipart/form-data">
+        <div class="mb-3">
+          <div class="avatar-128 my-3">
+            {{#if avatar}}
+            <img src="{{ avatar }}" class="d-block w-100" alt="user profile image">
+            {{else}}
+            <img src="{{ user.avatar_url }}" class="d-block w-100" alt="user profile image">
+            {{/if}}
+          </div>
+          <label for="avatar" class="form-label">修改使用者頭像：</label>
+          <input type="file" class="form-control" id="avatar" name="avatar"
+          accept="image/png, image/jpeg" required> 
+        </div>
+        <button type="submit" class="btn btn-primary">送出</button>
+      </form>
+    </div>
+  </div>
+  {{!-- username --}}
+  <div class="row mb-4">
+    <div class="col-12 col-md-8 mx-auto">
+      <form action="/user?_method=PUT" method="POST" autocomplete="off">
+        <div class="mb-3">
+          <p>目前的顯示名稱：{{#if user.username}}{{ user.username }}{{else}}（未設定）{{/if}}</p>
+          <label for="username" class="form-label">修改顯示名稱為：</label>
+          <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <button type="submit" class="btn btn-primary">送出</button>
+      </form>
+    </div>
+  </div>
+  {{!-- password --}}
+  {{#is user.type 'local'}}
+  <div class="row mb-5">
+    <div class="col-12 col-md-8 mx-auto">
+      <form action="/user?_method=PUT" method="POST">
+        <div class="mb-3">
+          <label for="password" class="form-label">修改密碼：</label>
+          <input type="password" class="form-control" id="password" name="password" min="6" max="24" required>
+        </div>
+        <div class="mb-3">
+          <label for="passwordConfirm" class="form-label">再次輸入密碼：</label>
+          <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" min="6" max="24"
+            required>
+        </div>
+        <button type="submit" class="btn btn-primary">送出</button>
+      </form>
+    </div>
+  </div>
+  {{/is}}
+  {{!-- delete account --}}
+  {{#isnt user.type 'DEMO'}}
+  <div class="row mb-4">
+    <div class="col-12 col-md-8 mx-auto">
+      <p>不再登入本專案：</p>
+      <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deleteConfirmation">
+        刪除帳號
+      </button>
+    </div>
+    <div class="modal fade" id="deleteConfirmation" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <p class="modal-title h5" id="exampleModalLabel">刪除帳號確認視窗</p>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="row px-3" action="/user?_method=DELETE" method="POST" autocomplete="off">
+              <p class="h2 text-warning">提示：<br>您的資料會全部刪除且無法復原</p>
+              <label for="deleteConfirmation" class="form-label">
+                請在以下對話框輸入 <code>deleteConfirmation/{{user.email}}</code>
+                <br>再按下「確認刪除」
+              </label>
+              <input type="text" class="form-control mb-3" id="deleteConfirmation" name="deleteConfirmation" required>
+              <button type="submit" class="btn btn-warning">確認刪除</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/isnt}}
+</div>

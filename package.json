@@ -8,9 +8,7 @@
     "dev": "nodemon app.js",
     "seed": "node models/seeds/userSeeder.js && node models/seeds/categorySeeder.js && node models/seeds/recordSeeder.js",
     "bundleFilter": "browserify public/scripts/modules/filter.js > public/scripts/filterBundle.js",
-    "bundleChart": "browserify public/scripts/modules/chart.js > public/scripts/chartBundle.js",
-    "watchFilter": "watchify public/scripts/modules/filter.js -o public/scripts/filterBundle.js",
-    "watchChart": "watchify public/scripts/modules/chart.js -o public/scripts/chartBundle.js"
+    "watchFilter": "watchify public/scripts/modules/filter.js -o public/scripts/filterBundle.js"
   },
   "repository": {
     "type": "git",
@@ -30,6 +28,7 @@
     "dotenv": "^10.0.0",
     "exceljs": "^4.2.1",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "express-handlebars": "^5.3.2",
     "express-session": "^1.17.2",
     "handlebars-helpers": "^0.10.0",

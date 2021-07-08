@@ -26,6 +26,7 @@
       <div class="my-3">
         <p class="h3">帳目一覽：</p>
         <ul class="list-group">
+        {{#if records}}
           {{#each records}}
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <span>
@@ -43,13 +44,14 @@
             </span>
           </li>
           {{/each}}
+          {{else}}
+          <span>暫無符合此條件的帳目</span>
+          {{/if}}
         </ul>
       </div>
 
       {{!-- chart --}}
-      {{#if records}}
       <div class="my-3" id="chartContainer"></div>
-      {{/if}}
 
       {{!-- Add button --}}
       <a href="/expense/add" class="add-button">
@@ -60,7 +62,7 @@
       <div class="modals">
         {{#each records}}
         <div class="modal fade" id="deleteModal{{this._id}}" tabindex="-1" aria-hidden="true">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
                 <p class="h5 modal-title">確認刪除</p>
@@ -70,9 +72,9 @@
                 確認要刪除帳目「{{this.name}}」嗎？
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">取消</button>
                 <form action="/expense/{{this._id}}?_method=DELETE" method="POST">
-                  <button type="submit" class="btn btn-primary">確認刪除</button>
+                  <button type="submit" class="btn btn-warning">確認刪除</button>
                 </form>
               </div>
             </div>

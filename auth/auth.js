@@ -18,4 +18,11 @@ function setAuthStatus (req, res, next) {
   return next()
 }
 
-module.exports = { hasLoggedIn, hasLoggedOut, setAuthStatus }
+function navAvatar (req, res, next) {
+  if (req.user) {
+    res.locals.navAvatar = req.user.avatar.data ? `data:image${req.user.avatar.contentType};base64,${req.user.avatar.data.toString('base64')}` : req.user.avatar_url
+  }
+  return next()
+}
+
+module.exports = { hasLoggedIn, hasLoggedOut, setAuthStatus, navAvatar }

@@ -7,6 +7,8 @@ async function renderChart (month = new Date().toISOString().slice(0, 7)) {
   elementObjects.chartContainer.innerHTML = '<canvas id="chart"></canvas>'
 
   const response = await axios.post('/', { month })
+  if (!response.data.length) return
+
   const labels = []
   response.data.forEach(item => (labels.push(item._id)))
   const data = []
