@@ -198,11 +198,11 @@ router.post('/resetPassword/:token', (req, res) => {
   })
 })
 
-router.get('/download', (req, res) => {
+router.get('/download', hasLoggedIn, (req, res) => {
   download(req, res)
 })
 
-router.get('/logout', (req, res) => {
+router.get('/logout', hasLoggedIn, (req, res) => {
   req.logout()
   req.flash('logoutSuccess', '您已登出 👋')
   res.redirect('/welcome')
