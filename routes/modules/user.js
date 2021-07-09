@@ -16,7 +16,7 @@ const passport = require('passport')
 const { hasLoggedIn, hasLoggedOut } = require('../../auth/auth')
 
 // download record data
-const { download } = require('../../controller/recordsDownload')
+const { download } = require('../../tools/recordsDownload')
 
 // for reset password
 const jwt = require('jsonwebtoken')
