@@ -123,7 +123,7 @@ router.post('/register', async (req, res) => {
     email,
     password: hashPassword,
     type: 'local',
-    avatar_url: `https://avatars.dicebear.com/api/jdenticon/${email.split(' ')[0]}.svg?width=128&background=%23ffffff`
+    avatar_url: `https://avatars.dicebear.com/api/jdenticon/${email.split('@')[0]}.svg?width=128&background=%23ffffff`
   })
   await newUser.save()
   req.flash('registerSuccess', '註冊成功，您現在可以登入了 😊')

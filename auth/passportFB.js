@@ -22,7 +22,7 @@ function loginVerifyFB (passport) {
           email,
           password: hashPassword,
           type: 'Facebook',
-          avatar_url: `https://avatars.dicebear.com/api/jdenticon/${email.split(' ')[0]}.svg?width=128&background=%23ffffff`
+          avatar_url: `https://avatars.dicebear.com/api/jdenticon/${email.split('@')[0]}.svg?width=128&background=%23ffffff`
         })
         await newUser.save()
         return done(null, newUser)
