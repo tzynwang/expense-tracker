@@ -10,6 +10,7 @@ const passport = require('passport')
 const loginVerify = require('./auth/passportLocal')
 const loginVerifyFB = require('./auth/passportFB')
 const { setAuthStatus, navAvatar } = require('./auth/auth')
+const MongoStore = require('connect-mongo')
 const expressHandlebars = require('express-handlebars')
 const handlebarsHelpers = require('handlebars-helpers')(['array', 'comparison'])
 const bodyParser = require('body-parser')
@@ -20,7 +21,8 @@ const routes = require('./routes')
 app.use(session({
   secret: process.env.SESSION_SECRET_KEY || 'The quick brown fox jumps over the lazy dog',
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost/expense-tracker' })
 }))
 app.use(flash())
 app.use((req, res, next) => {
