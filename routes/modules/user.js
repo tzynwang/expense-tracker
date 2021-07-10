@@ -15,6 +15,9 @@ const passport = require('passport')
 // only direct not logged in user to login or register endpoint
 const { hasLoggedIn, hasLoggedOut } = require('../../auth/auth')
 
+// generate avatar
+const { generateAvatar } = require('../../tools/generateAvatar')
+
 // download record data
 const { download } = require('../../tools/recordsDownload')
 
@@ -123,7 +126,7 @@ router.post('/register', async (req, res) => {
     email,
     password: hashPassword,
     type: 'local',
-    avatar_url: `https://avatars.dicebear.com/api/jdenticon/${email.split('@')[0]}.svg?width=128&background=%23ffffff`
+    avatar_url: generateAvatar(email.split('@')[0])
   })
   await newUser.save()
   req.flash('registerSuccess', '註冊成功，您現在可以登入了 😊')

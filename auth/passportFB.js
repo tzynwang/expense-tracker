@@ -3,6 +3,9 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 const User = require('../models/users')
 
+// generate avatar
+const { generateAvatar } = require('../tools/generateAvatar')
+
 function loginVerifyFB (passport) {
   passport.use(
     new FacebookStrategy({
@@ -22,7 +25,7 @@ function loginVerifyFB (passport) {
           email,
           password: hashPassword,
           type: 'Facebook',
-          avatar_url: `https://avatars.dicebear.com/api/jdenticon/${email.split('@')[0]}.svg?width=128&background=%23ffffff`
+          avatar_url: generateAvatar(email.split('@')[0])
         })
         await newUser.save()
         return done(null, newUser)
