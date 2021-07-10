@@ -6,6 +6,9 @@ const sampleUsers = require('./sampleUsers')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
+// generate avatar
+const { generateAvatar } = require('../../tools/generateAvatar')
+
 db.once('open', async () => {
   console.log('mongodb connected from userSeeder')
   for (const user of sampleUsers) {
@@ -14,7 +17,7 @@ db.once('open', async () => {
       email: user.email,
       password: await bcrypt.hash(user.password, saltRounds),
       type: 'local',
-      avatar_url: `https://avatars.dicebear.com/api/jdenticon/${user.firstName}.svg?width=128&background=%23ffffff`
+      avatar_url: generateAvatar(user.firstName)
     })
   }
   console.log('mongodb userSeeder done')
