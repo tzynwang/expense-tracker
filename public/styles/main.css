@@ -8,7 +8,9 @@ body {
 }
 
 .welcome-landing {
-  background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('/images/pexels-dziana-hasanbekava-7063762.jpg');
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)),
+    url('/images/pexels-dziana-hasanbekava-7063762.jpg');
 }
 
 .welcome-dialog {
@@ -16,21 +18,20 @@ body {
 }
 
 /* add new expense button */
-
 .add-button {
+  position: fixed;
+  right: 3rem;
+  bottom: 3rem;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  bottom: 3rem;
-  right: 3rem;
-  font-size: 3rem;
-  color: #fff;
-  background-color: #1a1a1a;
   width: 3.25rem;
   height: 3.25rem;
   transform: rotate(45deg);
   box-shadow: 0 0 0.75rem 0 rgba(26, 26, 26, 0.4);
+  font-size: 3rem;
+  color: #fff;
+  background-color: #1a1a1a;
 }
 
 .add-button i {
@@ -38,6 +39,17 @@ body {
 }
 
 /* navBar avatar size */
+.avatar-32,
+.avatar-128 {
+  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+}
+
+.avatar-32 img,
+.avatar-128 img {
+  position: relative;
+  object-fit: cover;
+  font-size: 0;
+}
 
 .avatar-32 {
   width: 32px;
@@ -45,8 +57,8 @@ body {
 }
 
 .avatar-32 img {
-  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
-  object-fit: cover;
+  min-width: 32px;
+  min-height: 32px;
 }
 
 .avatar-32:hover {
@@ -54,13 +66,36 @@ body {
 }
 
 /* user setting avatar size */
-
 .avatar-128 {
   width: 128px;
   height: 128px;
-  clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
 }
 
-.avatar-128 img {
-  object-fit: cover;
+/* handle broken image */
+.avatar-32 img::after,
+.avatar-128 img::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  background-color: #eceeef;
+  background-image: url('/images/File-earmark-image-fill.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.avatar-32 img::after {
+  content: '';
+  background-size: 1rem 1rem;
+}
+
+.avatar-128 img::after {
+  content: 'Invalid URL';
+  background-size: 2rem 2rem;
+  line-height: 128px;
+  font-size: 0.75rem;
+  text-align: center;
 }
