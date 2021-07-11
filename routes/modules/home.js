@@ -34,11 +34,7 @@ router.post('/', hasLoggedIn, async (req, res) => {
     {
       $group: {
         _id: '$category',
-        amount: {
-          $sum: {
-            $sum: '$amount'
-          }
-        }
+        amount: { $sum: { $sum: '$amount' } }
       }
     }
   ])
