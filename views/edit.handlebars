@@ -4,6 +4,7 @@
       {{>breadcrumb}}
       <form action="/expense/{{record._id}}?_method=PUT" method="POST" autocomplete="off">
         <h1>編輯項目：「{{record.name}}」</h1>
+        {{>formMessages}}
         <div class="mb-3">
           <label for="name" class="form-label">項目名稱：</label>
           <input type="text" class="form-control" id="name" name="name" value="{{record.name}}">
@@ -26,7 +27,7 @@
         </div>
         <div class="mb-3">
           <label for="amount" class="form-label">金額：</label>
-          <input type="number" class="form-control" id="amount" name="amount" value="{{record.amount}}">
+          <input type="number" class="form-control" id="amount" name="amount" value="{{record.amount}}" min="1">
         </div>
         <div class="mb-3">
           <label for="merchant" class="form-label">商家：</label>

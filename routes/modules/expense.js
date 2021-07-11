@@ -48,8 +48,12 @@ router.post('/add', async (req, res) => {
   const { name, category, date, amount, merchant } = req.body
   const userInput = req.body
   const categories = await Category.find().lean()
+  const formErrors = []
 
-  if (!name.trim().length || !category.trim().length || !date.trim().length || !amount.trim().length) return res.render('add', { categories, userInput, errorMessage: '有*的項目皆為必填' })
+  if (!name.trim().length || !category.trim().length || !date.trim().length || !amount.trim().length) formErrors.push({ message: '有*的項目皆為必填' })
+  if (isNaN(Number(amount))) formErrors.push({ message: '金額欄位僅能輸入數字資料' })
+  if (amount <= 0) formErrors.push({ message: '金額不可低於0' })
+  if (formErrors.length) return res.render('add', { categories, userInput, formErrors, breadcrumb: 'add' })
 
   await Record.create({ name, category, date, amount, merchant, userId: req.user._id })
   res.redirect('/')
@@ -70,9 +74,21 @@ router.get('/:id', async (req, res) => {
 // edit page (edit)
 router.put('/:id', async (req, res) => {
   const id = req.params.id
+  const { amount } = req.body
+  const userInput = req.body
+  const formErrors = []
+  const record = await Record.findById(id).lean()
+  const categories = await Category.find().lean()
+
+  if (amount) {
+    if (isNaN(Number(amount))) formErrors.push({ message: '金額欄位僅能輸入數字資料' })
+    if (amount <= 0) formErrors.push({ message: '金額不可低於0' })
+  }
+  if (formErrors.length) return res.render('edit', { record, categories, userInput, formErrors, breadcrumb: 'edit' })
+
   const toUpdate = await Record.findOne({ _id: id })
   for (const key in req.body) {
-    if (req.body[key].length) toUpdate[key] = req.body[key]
+    if (req.body[key].trim().length) toUpdate[key] = req.body[key]
   }
   await toUpdate.save()
   res.redirect('/')

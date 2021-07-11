@@ -1,4 +1,4 @@
-{{!-- for register or user setting update errors --}}
+{{!-- for register, add expense or user setting update errors --}}
 {{#if formErrors}}
 {{#each formErrors}}
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -33,14 +33,6 @@
 {{#if loginHint}}
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
   {{loginHint}}
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{{/if }}
-
-{{!-- for add form --}}
-{{#if errorMessage}}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  {{errorMessage}}
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 {{/if }}
