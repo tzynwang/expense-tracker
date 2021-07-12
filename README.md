@@ -25,6 +25,12 @@
 1. `npm run seed`
 1. `npm run start`
 1. 待終端機出現「`Express is listening on localhost:3000/welcome`」字樣後，即可使用瀏覽器開啟本專案：[http://localhost:3000/welcome](http://localhost:3000/welcome)
+  - 可使用以下範例帳號密碼登入本專案：
+    - `tony@stark.com`, `iamironman`
+    - `captain@hotmail.com`, `icandothisallday`
+    - `peter@parker.com`, `enajyram`
+    - `natasha@gamil.com`, `*parol#@$!`
+    - `nick@shield.com`, `password`
 
 ## 銘謝
 - [Dziana Hasanbekava: Coins scattered on desk with papers and creative pig wallet](https://www.pexels.com/photo/coins-scattered-on-desk-with-papers-and-creative-pig-wallet-7063762/)：專案首頁主視覺圖片
