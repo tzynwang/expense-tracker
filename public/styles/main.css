@@ -99,3 +99,9 @@ body {
   font-size: 0.75rem;
   text-align: center;
 }
+
+/* index expense list icon */
+.list-group i {
+  font-size: 2rem;
+  margin-right: 1rem;
+}
