@@ -16,7 +16,7 @@ db.once('open', async () => {
       username: user.firstName,
       email: user.email,
       password: await bcrypt.hash(user.password, saltRounds),
-      type: 'local',
+      type: 'DEMO',
       avatar_url: generateAvatar(user.firstName)
     })
   }
