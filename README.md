@@ -31,10 +31,12 @@
     - `peter@parker.com`, `enajyram`
     - `natasha@gamil.com`, `*parol#@$!`
     - `nick@shield.com`, `password`
+    - 提示：範例帳號無法使用重設密碼與刪除帳號之功能
 
 ## 銘謝
 - [Dziana Hasanbekava: Coins scattered on desk with papers and creative pig wallet](https://www.pexels.com/photo/coins-scattered-on-desk-with-papers-and-creative-pig-wallet-7063762/)：專案首頁主視覺圖片
 - [BOOTSWATCH: Lux](https://bootswatch.com/lux/)：專案CSS模板
+- [random-avatar-generator](https://www.npmjs.com/package/random-avatar-generator)：頭像產生器
 
 ## 開發者
 Charlie (Tzu Yin)
