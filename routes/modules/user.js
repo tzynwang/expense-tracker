@@ -142,8 +142,8 @@ router.post('/resetPassword', async (req, res) => {
   const user = await User.findOne({ email })
 
   if (!user) {
-    req.flash('error', '此Email並未註冊過，無法重設密碼')
-    res.redirect('/user/register')
+    req.flash('registerSuccess', '若您過去曾註冊過本APP，我們會將重設密碼的信件發送給該Email')
+    res.redirect('/user/login')
   } else if (user.type !== 'local') {
     req.flash('error', '僅有非透過第三方帳號登入的使用者可以重設密碼')
     res.redirect('/user/login')
