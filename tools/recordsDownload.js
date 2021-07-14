@@ -1,9 +1,9 @@
 const Record = require('../models/records')
 const excel = require('exceljs')
 
-async function download (req, res) {
+async function download (id) {
   const records = await Record.find({
-    userId: req.user._id,
+    userId: id,
     isDelete: false
   })
     .sort({ date: 'desc' })
@@ -37,18 +37,7 @@ async function download (req, res) {
   const time = timeStart.toLocaleTimeString('en-US', { timeStyle: 'medium', hour12: false }).split(':').join('') // HH:MM:SS to HHMMSS
   const fileName = `records_${date}_${time}.txt`
 
-  res.setHeader(
-    'Content-Type',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  )
-  res.setHeader(
-    'Content-Disposition',
-    `attachment; filename=${fileName}.xlsx`
-  )
-
-  return workbook.xlsx.write(res).then(function () {
-    res.status(200).end()
-  })
+  return { workbook, fileName }
 }
 
 module.exports = { download }

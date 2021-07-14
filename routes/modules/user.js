@@ -206,8 +206,22 @@ router.post('/resetPassword/:token', (req, res) => {
   })
 })
 
-router.get('/download', hasLoggedIn, (req, res) => {
-  download(req, res)
+router.get('/download', hasLoggedIn, async (req, res) => {
+  const { workbook, fileName } = await download(req.user._id)
+
+  res.setHeader(
+    'Content-Type',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  )
+  res.setHeader(
+    'Content-Disposition',
+    `attachment; filename=${fileName}.xlsx`
+  )
+
+  workbook.xlsx.write(res)
+    .then(() => {
+      res.status(200).end()
+    })
 })
 
 router.get('/logout', hasLoggedIn, (req, res) => {
